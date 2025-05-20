@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class SelectionSort implements Sorter {
 
     @Override
-    public ArrayList<VisualizerStep> generateSortHistory(int[] arr) {
+    public ArrayList<VisualizerStep> sort(int[] arr) {
         ArrayList<VisualizerStep> history = new ArrayList<VisualizerStep>();
         history.add(VisualizerStep.buildFromArray(arr));
 

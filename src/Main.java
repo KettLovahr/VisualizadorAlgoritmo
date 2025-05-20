@@ -7,6 +7,8 @@ import br.com.davidbuzatto.jsge.image.Image;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Modelo de projeto básico da JSGE.
@@ -20,19 +22,25 @@ public class Main extends EngineFrame {
     private Image logo;
 
     private int[] arr;
-    private ArrayList<VisualizerStep> sequence;
-    private int index = 0;
-    private Sorter sorter;
+    public ArrayList<VisualizerStep> sequence;
+    public int index = 0;
+    public Sorter sorter;
+
     private int columnWidth = 12;
     private int columnGap = 10;
-    private int bottomPadding = 120;
-    private int topPadding = 10;
-    private double stepTime = 0.02;
-    private double currentStepTimer;
+
+    public double stepTime = 0.02;
+    public double currentStepTimer;
+    public boolean executing;
+
+    public int menuHeight = 120;
+    public int topPadding = 10;
+
+    private Menu menu;
 
     public Main() {
         super(
-                800,                 // largura                      / width
+                800,               // largura                      / width
                 450,                 // algura                       / height
                 "Window Title",      // título                       / title
                 60,                  // quadros por segundo desejado / target FPS
@@ -47,9 +55,22 @@ public class Main extends EngineFrame {
 
     @Override
     public void create() {
+        initializeSort();
+
+        menu = new Menu(this);
+    }
+
+    public void initializeSort() {
+        index = 0;
         arr = new int[32];
+        ArrayList<Integer> temp = new ArrayList<Integer>();
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = 1 + (int)(Math.random() * 30);
+            temp.add(i + 1);
+            //arr[i] = 1 + (int)(Math.random() * 30);
+        }
+        Collections.shuffle(temp);
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = temp.get(i);
         }
         sequence = new ArrayList<VisualizerStep>();
         sorter = new SelectionSort();
@@ -57,16 +78,20 @@ public class Main extends EngineFrame {
         logo.resize((int) (logo.getWidth() * 0.1), (int) (logo.getWidth() * 0.1));
         setWindowIcon(logo);
 
-        sequence = sorter.generateSortHistory(arr);
+        sequence = sorter.sort(arr);
+
     }
 
     @Override
     public void update(double delta) {
+        menu.update(this, delta);
         currentStepTimer += delta;
-        if (currentStepTimer > stepTime * sequence.get(index).delayMultiplier) {
+        if (currentStepTimer > stepTime * sequence.get(index).delayMultiplier && executing) {
             currentStepTimer -= stepTime * sequence.get(index).delayMultiplier;
             if (index < sequence.size() - 1) {
                 index++;
+            } else {
+                executing = false;
             }
         }
     }
@@ -74,6 +99,7 @@ public class Main extends EngineFrame {
     @Override
     public void draw() {
         clearBackground(BLACK);
+        menu.draw(this);
 
         drawText(String.format("%d", index), 20.0, 20.0, 32, WHITE);
         drawVisualizerStep(sequence.get(index));
@@ -92,11 +118,11 @@ public class Main extends EngineFrame {
         for (int i = 0; i < step.elements.length; i++) {
 
             //double columnHeight = (double)step[i] / (double)maxValue * topPadding;
-            double columnHeight = (double)(getScreenHeight() - topPadding - bottomPadding) * (double)(step.elements[i].value) / (double)maxValue;
+            double columnHeight = (double)(getScreenHeight() - topPadding - menuHeight) * (double)(step.elements[i].value) / (double)maxValue;
 
             fillRectangle(
                     getScreenWidth() / 2 - totalWidth / 2 + i * (columnWidth + columnGap),
-                    getScreenHeight() - bottomPadding - columnHeight,
+                    getScreenHeight() - menuHeight - columnHeight,
                     columnWidth,
                     columnHeight,
                     step.elements[i].color
@@ -110,11 +136,11 @@ public class Main extends EngineFrame {
         for (int i = 0; i < arr.length; i++) {
 
             //double columnHeight = (double)arr[i] / (double)maxValue * topPadding;
-            double columnHeight = (double)(getScreenHeight() - topPadding - bottomPadding) * (double)arr[i] / (double)maxValue;
+            double columnHeight = (double)(getScreenHeight() - topPadding - menuHeight) * (double)arr[i] / (double)maxValue;
 
             fillRectangle(
                     getScreenWidth() / 2 - totalWidth / 2 + i * (columnWidth + columnGap),
-                    getScreenHeight() - bottomPadding - columnHeight,
+                    getScreenHeight() - menuHeight - columnHeight,
                     columnWidth,
                     columnHeight,
                     BLACK
