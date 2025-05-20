@@ -47,7 +47,7 @@ public class Menu {
     }
 
     private void setComponentPosition(GuiComponent component, double x, double y) {
-        // Os componentes parecem não ter um método para definir a posição absoluta?
+        // Os componentes parecem não ter uma forma de definir a posição absoluta?
         // Tudo bem.
         component.move(
                 x - component.getX(),
