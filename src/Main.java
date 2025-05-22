@@ -87,6 +87,14 @@ public class Main extends EngineFrame {
 
     @Override
     public void update(double delta) {
+        if (isKeyPressed(KEY_RIGHT)) {
+            if (index < sequence.size() - 1)
+                index++;
+        }
+        if (isKeyPressed(KEY_LEFT)) {
+            if (index > 0)
+                index--;
+        }
         currentStepTimer += delta;
         if (currentStepTimer > stepTime * sequence.get(index).delayMultiplier && executing) {
             currentStepTimer -= stepTime * sequence.get(index).delayMultiplier;
@@ -108,10 +116,9 @@ public class Main extends EngineFrame {
         clearBackground(BLACK);
 
         drawText(String.format("%d - %s", index, currentSorter), 20.0, 20.0, 32, WHITE);
-        if (sequence != null && sequence.size() > 0)
-        drawVisualizerStep(sequence.get(index));
+        if (sequence != null && !sequence.isEmpty())
+            drawVisualizerStep(sequence.get(index));
 
-        drawFPS(120, 20);
         menu.draw(this);
     }
 
