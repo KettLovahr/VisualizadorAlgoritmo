@@ -12,7 +12,10 @@ public class Menu {
     GuiSlider playbackScrubber;
     GuiDropdownList algorithmPicker;
 
+    public String currentSorter;
+
     public Menu(Main e) {
+        currentSorter = "Selection Sort";
         resetButton = new GuiButton(0,0, 80, 20, "Reset", e);
         togglePlaybackButton = new GuiButton(0,0, 80, 20, "Reset", e);
         playbackScrubber = new GuiSlider(0, 0, 300, 20, 0, 0, 1, e);
@@ -20,6 +23,7 @@ public class Menu {
         ArrayList<String> algorithms = new ArrayList<String>();
         algorithms.add("Selection Sort");
         algorithms.add("Insertion Sort");
+        algorithms.add("Bubble Sort");
 
         algorithmPicker = new GuiDropdownList(0, 0, 200, 20, algorithms, e);
     }
@@ -52,7 +56,7 @@ public class Menu {
 
         algorithmPicker.update(delta);
         setComponentPosition(algorithmPicker, 20, menuAnchorY + 50);
-        e.currentSorter = algorithmPicker.getSelectedItemText();
+        currentSorter = algorithmPicker.getSelectedItemText();
     }
     public void draw(Main e) {
         resetButton.draw();

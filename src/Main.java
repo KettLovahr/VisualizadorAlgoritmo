@@ -1,6 +1,4 @@
-import Sorters.InsertionSort;
-import Sorters.SelectionSort;
-import Sorters.Sorter;
+import Sorters.*;
 import Sorters.VisualizerData.VisualizerStep;
 import br.com.davidbuzatto.jsge.core.engine.EngineFrame;
 import br.com.davidbuzatto.jsge.core.utils.DrawingUtils;
@@ -57,6 +55,7 @@ public class Main extends EngineFrame {
         sorters = new HashMap<>();
         sorters.put("Selection Sort", new SelectionSort());
         sorters.put("Insertion Sort", new InsertionSort());
+        sorters.put("Bubble Sort", new BubbleSort());
         currentSorter = "Selection Sort";
 
         initializeSort();
@@ -98,6 +97,10 @@ public class Main extends EngineFrame {
             }
         }
         menu.update(this, delta);
+        if (!Objects.equals(menu.currentSorter, currentSorter) && menu.currentSorter != null) {
+            currentSorter = menu.currentSorter;
+            initializeSort();
+        }
     }
 
     @Override
