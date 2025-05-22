@@ -1,3 +1,4 @@
+import Sorters.InsertionSort;
 import Sorters.SelectionSort;
 import Sorters.Sorter;
 import Sorters.VisualizerData.VisualizerStep;
@@ -5,10 +6,7 @@ import br.com.davidbuzatto.jsge.core.engine.EngineFrame;
 import br.com.davidbuzatto.jsge.core.utils.DrawingUtils;
 import br.com.davidbuzatto.jsge.image.Image;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Modelo de projeto básico da JSGE.
@@ -24,7 +22,8 @@ public class Main extends EngineFrame {
     private int[] arr;
     public ArrayList<VisualizerStep> sequence;
     public int index = 0;
-    public Sorter sorter;
+    public String currentSorter;
+    public HashMap<String, Sorter> sorters;
 
     private int columnWidth = 12;
     private int columnGap = 10;
@@ -33,7 +32,7 @@ public class Main extends EngineFrame {
     public double currentStepTimer;
     public boolean executing;
 
-    public int menuHeight = 120;
+    public int menuHeight = 200;
     public int topPadding = 10;
 
     private Menu menu;
@@ -41,7 +40,7 @@ public class Main extends EngineFrame {
     public Main() {
         super(
                 800,               // largura                      / width
-                450,                 // algura                       / height
+                600,                 // algura                       / height
                 "Window Title",      // título                       / title
                 60,                  // quadros por segundo desejado / target FPS
                 true,                // suavização                   / antialiasing
@@ -55,6 +54,11 @@ public class Main extends EngineFrame {
 
     @Override
     public void create() {
+        sorters = new HashMap<>();
+        sorters.put("Selection Sort", new SelectionSort());
+        sorters.put("Insertion Sort", new InsertionSort());
+        currentSorter = "Selection Sort";
+
         initializeSort();
 
         menu = new Menu(this);
@@ -73,18 +77,17 @@ public class Main extends EngineFrame {
             arr[i] = temp.get(i);
         }
         sequence = new ArrayList<VisualizerStep>();
-        sorter = new SelectionSort();
+        //sorter = new SelectionSort();
         logo = DrawingUtils.createLogo();
         logo.resize((int) (logo.getWidth() * 0.1), (int) (logo.getWidth() * 0.1));
         setWindowIcon(logo);
 
-        sequence = sorter.sort(arr);
+        sequence = sorters.get(currentSorter).sort(arr);
 
     }
 
     @Override
     public void update(double delta) {
-        menu.update(this, delta);
         currentStepTimer += delta;
         if (currentStepTimer > stepTime * sequence.get(index).delayMultiplier && executing) {
             currentStepTimer -= stepTime * sequence.get(index).delayMultiplier;
@@ -94,17 +97,19 @@ public class Main extends EngineFrame {
                 executing = false;
             }
         }
+        menu.update(this, delta);
     }
 
     @Override
     public void draw() {
         clearBackground(BLACK);
-        menu.draw(this);
 
-        drawText(String.format("%d", index), 20.0, 20.0, 32, WHITE);
+        drawText(String.format("%d - %s", index, currentSorter), 20.0, 20.0, 32, WHITE);
+        if (sequence != null && sequence.size() > 0)
         drawVisualizerStep(sequence.get(index));
 
         drawFPS(120, 20);
+        menu.draw(this);
     }
 
     public void drawVisualizerStep(VisualizerStep step) {

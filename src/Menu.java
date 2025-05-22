@@ -1,17 +1,27 @@
 import br.com.davidbuzatto.jsge.core.engine.EngineFrame;
 import br.com.davidbuzatto.jsge.imgui.GuiButton;
 import br.com.davidbuzatto.jsge.imgui.GuiComponent;
+import br.com.davidbuzatto.jsge.imgui.GuiDropdownList;
 import br.com.davidbuzatto.jsge.imgui.GuiSlider;
+
+import java.util.ArrayList;
 
 public class Menu {
     GuiButton resetButton;
     GuiButton togglePlaybackButton;
     GuiSlider playbackScrubber;
+    GuiDropdownList algorithmPicker;
 
     public Menu(Main e) {
         resetButton = new GuiButton(0,0, 80, 20, "Reset", e);
         togglePlaybackButton = new GuiButton(0,0, 80, 20, "Reset", e);
         playbackScrubber = new GuiSlider(0, 0, 300, 20, 0, 0, 1, e);
+
+        ArrayList<String> algorithms = new ArrayList<String>();
+        algorithms.add("Selection Sort");
+        algorithms.add("Insertion Sort");
+
+        algorithmPicker = new GuiDropdownList(0, 0, 200, 20, algorithms, e);
     }
 
     public void update(Main e, double delta) {
@@ -39,11 +49,16 @@ public class Menu {
         } else {
             e.index = (int)playbackScrubber.getValue();
         }
+
+        algorithmPicker.update(delta);
+        setComponentPosition(algorithmPicker, 20, menuAnchorY + 50);
+        e.currentSorter = algorithmPicker.getSelectedItemText();
     }
     public void draw(Main e) {
         resetButton.draw();
         togglePlaybackButton.draw();
         playbackScrubber.draw();
+        algorithmPicker.draw();
     }
 
     private void setComponentPosition(GuiComponent component, double x, double y) {

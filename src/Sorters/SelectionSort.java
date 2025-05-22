@@ -31,7 +31,7 @@ public class SelectionSort implements Sorter {
                 VisualizerStep new_step = VisualizerStep.buildFromArray(arr);
                 new_step.elements[i].color = Color.RED;
                 new_step.elements[jMinimum].color = Color.BLUE;
-                new_step.delayMultiplier = 10.0;
+                //new_step.delayMultiplier = 10.0;
                 history.add(new_step);
             }
         }
