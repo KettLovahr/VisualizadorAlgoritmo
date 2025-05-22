@@ -25,7 +25,7 @@ public class Menu {
         algorithms.add("Insertion Sort");
         algorithms.add("Bubble Sort");
 
-        algorithmPicker = new GuiDropdownList(0, 0, 200, 20, algorithms, e);
+        algorithmPicker = new GuiDropdownList(0, 0, 180, 20, algorithms, e);
     }
 
     public void update(Main e, double delta) {
