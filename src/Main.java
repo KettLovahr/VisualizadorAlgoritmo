@@ -56,6 +56,7 @@ public class Main extends EngineFrame {
         sorters.put("Selection Sort", new SelectionSort());
         sorters.put("Insertion Sort", new InsertionSort());
         sorters.put("Bubble Sort", new BubbleSort());
+        sorters.put("Merge Sort", new MergeSort());
         currentSorter = "Selection Sort";
 
         initializeSort();
@@ -95,7 +96,9 @@ public class Main extends EngineFrame {
             if (index > 0)
                 index--;
         }
-        currentStepTimer += delta;
+        if (executing) {
+            currentStepTimer += delta;
+        }
         if (currentStepTimer > stepTime * sequence.get(index).delayMultiplier && executing) {
             currentStepTimer -= stepTime * sequence.get(index).delayMultiplier;
             if (index < sequence.size() - 1) {

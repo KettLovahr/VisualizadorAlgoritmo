@@ -17,13 +17,14 @@ public class Menu {
     public Menu(Main e) {
         currentSorter = "Selection Sort";
         resetButton = new GuiButton(0,0, 80, 20, "Reset", e);
-        togglePlaybackButton = new GuiButton(0,0, 80, 20, "Reset", e);
+        togglePlaybackButton = new GuiButton(0,0, 80, 20, "Play", e);
         playbackScrubber = new GuiSlider(0, 0, 400, 20, 0, 0, 1, e);
 
         ArrayList<String> algorithms = new ArrayList<String>();
         algorithms.add("Selection Sort");
         algorithms.add("Insertion Sort");
         algorithms.add("Bubble Sort");
+        algorithms.add("Merge Sort");
 
         algorithmPicker = new GuiDropdownList(0, 0, 180, 20, algorithms, e);
     }
