@@ -88,6 +88,9 @@ public class Main extends EngineFrame {
                 menu.elementCountSpinner.setValue(++elementCount);
             }
         }
+        if (isKeyPressed(KEY_SPACE)) {
+            executing = !executing;
+        }
         if (executing) {
             currentStepTimer += delta;
         }
