@@ -1,1 +1,1 @@
-# README
+This is a sorting algorithm visualizer developed in Java using [David Buzatto](https://github.com/davidbuzatto/)'s Java game engine [JSGE](https://github.com/davidbuzatto/JSGE). This program has been written as an assignment for our Data Structures class for the third semester of my degree at IFSP.
