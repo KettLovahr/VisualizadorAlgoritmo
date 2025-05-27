@@ -1,8 +1,5 @@
 import br.com.davidbuzatto.jsge.core.engine.EngineFrame;
-import br.com.davidbuzatto.jsge.imgui.GuiButton;
-import br.com.davidbuzatto.jsge.imgui.GuiComponent;
-import br.com.davidbuzatto.jsge.imgui.GuiDropdownList;
-import br.com.davidbuzatto.jsge.imgui.GuiSlider;
+import br.com.davidbuzatto.jsge.imgui.*;
 
 import java.util.ArrayList;
 
@@ -12,6 +9,9 @@ public class Menu {
     GuiSlider playbackScrubber;
     GuiDropdownList algorithmPicker;
 
+    GuiLabel elementCountSpinnerLabel;
+    GuiSpinner elementCountSpinner;
+
     public String currentSorter;
 
     public Menu(Main e) {
@@ -19,6 +19,9 @@ public class Menu {
         resetButton = new GuiButton(0,0, 80, 20, "Reset", e);
         togglePlaybackButton = new GuiButton(0,0, 80, 20, "Play", e);
         playbackScrubber = new GuiSlider(0, 0, 400, 20, 0, 0, 1, e);
+
+        elementCountSpinnerLabel = new GuiLabel(0, 0, 80, 20, "Elements:", e);
+        elementCountSpinner = new GuiSpinner(0, 0, 80, 20, 32, 10, 100, e);
 
         ArrayList<String> algorithms = new ArrayList<String>();
         algorithms.add("Selection Sort");
@@ -58,12 +61,21 @@ public class Menu {
         algorithmPicker.update(delta);
         setComponentPosition(algorithmPicker, 20, menuAnchorY + 50);
         currentSorter = algorithmPicker.getSelectedItemText();
+
+        elementCountSpinnerLabel.update(delta);
+        setComponentPosition(elementCountSpinnerLabel, 220, menuAnchorY + 50);
+        elementCountSpinner.update(delta);
+        setComponentPosition(elementCountSpinner, 300, menuAnchorY + 50);
+        e.elementCount = elementCountSpinner.getValue();
     }
     public void draw(Main e) {
         resetButton.draw();
         togglePlaybackButton.draw();
         playbackScrubber.draw();
         algorithmPicker.draw();
+
+        elementCountSpinnerLabel.draw();
+        elementCountSpinner.draw();
     }
 
     private void setComponentPosition(GuiComponent component, double x, double y) {

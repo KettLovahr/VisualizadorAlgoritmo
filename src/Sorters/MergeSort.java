@@ -61,7 +61,7 @@ public class MergeSort implements Sorter {
             }
 
             VisualizerStep new_step = VisualizerStep.buildFromArray(arr);
-            new_step.delayMultiplier = 3.0;
+            new_step.delayMultiplier = 2.0;
             for (int l = startIndex; l <= endIndex; l++) {
                 new_step.elements[l].color = Color.YELLOW;
             }

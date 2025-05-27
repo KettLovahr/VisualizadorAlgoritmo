@@ -20,34 +20,24 @@ public class Main extends EngineFrame {
     private int[] arr;
     public ArrayList<VisualizerStep> sequence;
     public int index = 0;
+    public int elementCount;
     public String currentSorter;
     public HashMap<String, Sorter> sorters;
 
-    private int columnWidth = 12;
-    private int columnGap = 10;
+    private int columnWidth = 16;
+    private int columnGap = 4;
 
     public double stepTime = 0.02;
     public double currentStepTimer;
     public boolean executing;
 
-    public int menuHeight = 200;
-    public int topPadding = 10;
+    public int menuHeight = 220;
+    public int topPadding = 24;
 
     private Menu menu;
 
     public Main() {
-        super(
-                800,               // largura                      / width
-                600,                 // algura                       / height
-                "Window Title",      // título                       / title
-                60,                  // quadros por segundo desejado / target FPS
-                true,                // suavização                   / antialiasing
-                true,               // redimensionável              / resizable
-                false,               // tela cheia                   / full screen
-                false,               // sem decoração                / undecorated
-                false                // sempre no topo               / always on top
-        );
-
+        super( 800, 600, "Window Title", 60, true, true, false, false, false );
     }
 
     @Override
@@ -58,6 +48,7 @@ public class Main extends EngineFrame {
         sorters.put("Bubble Sort", new BubbleSort());
         sorters.put("Merge Sort", new MergeSort());
         currentSorter = "Selection Sort";
+        elementCount = 32;
 
         initializeSort();
 
@@ -66,7 +57,7 @@ public class Main extends EngineFrame {
 
     public void initializeSort() {
         index = 0;
-        arr = new int[32];
+        arr = new int[elementCount];
         ArrayList<Integer> temp = new ArrayList<Integer>();
         for (int i = 0; i < arr.length; i++) {
             temp.add(i + 1);
@@ -127,11 +118,24 @@ public class Main extends EngineFrame {
 
     public void drawVisualizerStep(VisualizerStep step) {
         int totalWidth = step.elements.length * (columnWidth + columnGap);
-        int maxValue = Arrays
-                .stream(step.elements)
-                .map(x -> x.value)
-                .max(Integer::compareTo)
-                .get();
+        double effectiveColumnWidth;
+        double effectiveColumnGap;
+
+        if (totalWidth > getScreenWidth() - topPadding * 2) {
+            effectiveColumnWidth = columnWidth * ((double)getScreenWidth() -  topPadding * 2) / totalWidth;
+            effectiveColumnGap = columnGap * ((double)getScreenWidth() -  topPadding * 2) / totalWidth;
+            totalWidth = getScreenWidth() - topPadding * 2;
+        } else {
+            effectiveColumnWidth = columnWidth;
+            effectiveColumnGap = columnGap;
+        }
+        //int maxValue = Arrays
+        //        .stream(step.elements)
+        //        .map(x -> x.value)
+        //        .max(Integer::compareTo)
+        //        .get();
+
+        int maxValue = Arrays.stream(arr).max().getAsInt();
 
         for (int i = 0; i < step.elements.length; i++) {
 
@@ -139,9 +143,9 @@ public class Main extends EngineFrame {
             double columnHeight = (double)(getScreenHeight() - topPadding - menuHeight) * (double)(step.elements[i].value) / (double)maxValue;
 
             fillRectangle(
-                    getScreenWidth() / 2 - totalWidth / 2 + i * (columnWidth + columnGap),
+                    getScreenWidth() / 2 - totalWidth / 2 + i * (effectiveColumnWidth + effectiveColumnGap),
                     getScreenHeight() - menuHeight - columnHeight,
-                    columnWidth,
+                    effectiveColumnWidth,
                     columnHeight,
                     step.elements[i].color
             );
