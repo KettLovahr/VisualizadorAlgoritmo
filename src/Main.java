@@ -6,13 +6,6 @@ import br.com.davidbuzatto.jsge.image.Image;
 
 import java.util.*;
 
-/**
- * Modelo de projeto básico da JSGE.
- * <p>
- * JSGE basic project template.
- *
- * @author Prof. Dr. David Buzatto
- */
 public class Main extends EngineFrame {
 
     private Image logo;
@@ -61,14 +54,12 @@ public class Main extends EngineFrame {
         ArrayList<Integer> temp = new ArrayList<Integer>();
         for (int i = 0; i < arr.length; i++) {
             temp.add(i + 1);
-            //arr[i] = 1 + (int)(Math.random() * 30);
         }
         Collections.shuffle(temp);
         for (int i = 0; i < arr.length; i++) {
             arr[i] = temp.get(i);
         }
         sequence = new ArrayList<VisualizerStep>();
-        //sorter = new SelectionSort();
         logo = DrawingUtils.createLogo();
         logo.resize((int) (logo.getWidth() * 0.1), (int) (logo.getWidth() * 0.1));
         setWindowIcon(logo);
@@ -139,17 +130,11 @@ public class Main extends EngineFrame {
             effectiveColumnWidth = columnWidth;
             effectiveColumnGap = columnGap;
         }
-        //int maxValue = Arrays
-        //        .stream(step.elements)
-        //        .map(x -> x.value)
-        //        .max(Integer::compareTo)
-        //        .get();
 
         int maxValue = Arrays.stream(arr).max().getAsInt();
 
         for (int i = 0; i < step.elements.length; i++) {
 
-            //double columnHeight = (double)step[i] / (double)maxValue * topPadding;
             double columnHeight = (double)(getScreenHeight() - topPadding - menuHeight) * (double)(step.elements[i].value) / (double)maxValue;
 
             fillRectangle(
@@ -167,7 +152,6 @@ public class Main extends EngineFrame {
 
         for (int i = 0; i < arr.length; i++) {
 
-            //double columnHeight = (double)arr[i] / (double)maxValue * topPadding;
             double columnHeight = (double)(getScreenHeight() - topPadding - menuHeight) * (double)arr[i] / (double)maxValue;
 
             fillRectangle(
