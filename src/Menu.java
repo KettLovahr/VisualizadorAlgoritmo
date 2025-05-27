@@ -21,7 +21,7 @@ public class Menu {
         playbackScrubber = new GuiSlider(0, 0, 400, 20, 0, 0, 1, e);
 
         elementCountSpinnerLabel = new GuiLabel(0, 0, 80, 20, "Elements:", e);
-        elementCountSpinner = new GuiSpinner(0, 0, 80, 20, 32, 10, 100, e);
+        elementCountSpinner = new GuiSpinner(0, 0, 80, 20, 32, 10, 500, e);
 
         ArrayList<String> algorithms = new ArrayList<String>();
         algorithms.add("Selection Sort");

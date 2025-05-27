@@ -87,6 +87,16 @@ public class Main extends EngineFrame {
             if (index > 0)
                 index--;
         }
+        if (isKeyDown(KEY_Q)) {
+            if (elementCount > 10) {
+                menu.elementCountSpinner.setValue(--elementCount);
+            }
+        }
+        if (isKeyDown(KEY_W)) {
+            if (elementCount < 500) {
+                menu.elementCountSpinner.setValue(++elementCount);
+            }
+        }
         if (executing) {
             currentStepTimer += delta;
         }
