@@ -13,7 +13,7 @@ public class Util {
     }
 
     public static void addFinalAnimation(ArrayList<VisualizerStep> history) {
-        VisualizerStep last_element = history.getLast();
+        VisualizerStep last_element = history.get(history.size() - 1);
         for (int i = 0; i < last_element.elements.length; i++) {
             VisualizerStep new_step = VisualizerStep.buildFromArray(last_element.toArray());
             for (int j = 0; j <= i; j++) {
