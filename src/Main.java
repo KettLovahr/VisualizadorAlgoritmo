@@ -30,7 +30,7 @@ public class Main extends EngineFrame {
     private Menu menu;
 
     public Main() {
-        super( 800, 600, "Window Title", 60, true, true, false, false, false );
+        super( 800, 600, "Visualizador de Algoritmo de Ordenação", 60, true, true, false, false, false );
     }
 
     @Override
@@ -40,6 +40,7 @@ public class Main extends EngineFrame {
         sorters.put("Insertion Sort", new InsertionSort());
         sorters.put("Bubble Sort", new BubbleSort());
         sorters.put("Merge Sort", new MergeSort());
+        sorters.put("Bogo Sort", new BogoSort());
         currentSorter = "Selection Sort";
         elementCount = 32;
 
@@ -79,7 +80,7 @@ public class Main extends EngineFrame {
                 index--;
         }
         if (isKeyDown(KEY_Q)) {
-            if (elementCount > 10) {
+            if (elementCount > 3) {
                 menu.elementCountSpinner.setValue(--elementCount);
             }
         }
